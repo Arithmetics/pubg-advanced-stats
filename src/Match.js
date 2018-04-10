@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from './api/pubgApi'
+import Graph from 'react-graph-vis'
 
 
 export default class Match extends Component {
@@ -46,6 +47,57 @@ export default class Match extends Component {
   render(){
     const match = this.state.match;
 
+    const graph = {
+      nodes: [
+          {id: 0, label: 'Node 0'},
+          {id: 1, label: 'Node 1', color: "#e04141"},
+
+          {id: 435, label: 'Node X'},
+          {id: 66, label: 'Node 66'},
+          {id: 4, label: 'Node 4'},
+          {id: 5, label: 'Node 5'},
+          {id: 6, label: 'Node 6'},
+          {id: 7, label: 'Node 7'},
+          {id: 3, label: 'Node 3'},
+          {id: 8, label: 'Node 8'},
+          {id: 9, label: 'Node 9'}
+        ],
+      edges: [
+          {from: 0, to: 1, label: 'Kar-98'},
+          {from: 0, to: 66, label: 'SCAR-L'},
+          {from: 1, to: 435},
+          {from: 1, to: 4},
+          {from: 1, to: 5},
+          {from: 1, to: 6},
+          {from: 1, to: 3},
+          {from: 1, to: 7},
+          {from: 1, to: 8},
+          {from: 1, to: 9}
+        ]
+    };
+
+    const options = {
+        layout: {
+            hierarchical: {
+              sortMethod: 'directed'
+            }
+        },
+        edges: {
+            color: "#000000"
+        }
+    };
+
+    const events = {
+        select: function(event) {
+            const { nodes, edges } = event;
+        }
+    }
+
+
+
+
+
+
 
     return(
       <div>
@@ -65,6 +117,7 @@ export default class Match extends Component {
               </li>
           </ul>
         }
+        <Graph graph={graph} options={options} events={events} style={{ height: "640px" }}/>
       </div>
     )
   }
