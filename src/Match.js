@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from './api/pubgApi'
-import KillTree from './KillTree'\
+import KillTree from './KillTree'
 import Paths from './Paths'
 import { DotLoader } from 'react-spinners';
 
@@ -98,6 +98,7 @@ export default class Match extends Component {
           </ul>
         }
         {match !== null && this.state.loading !== true &&
+          <div>
           <KillTree
             telemetry={this.state.telemetry}
             nodes={(this.state.match) ? this.state.match.names : null}
@@ -105,13 +106,14 @@ export default class Match extends Component {
             winners={(this.state.match) ? this.state.match.winners.names : null}
             teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
           />
-          <2DPaths
+          <Paths
             telemetry={this.state.telemetry}
             nodes={(this.state.match) ? this.state.match.names : null}
             playerName={this.props.playerName}
             winners={(this.state.match) ? this.state.match.winners.names : null}
             teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
           />
+        </div>
         }
       </div>
     )
