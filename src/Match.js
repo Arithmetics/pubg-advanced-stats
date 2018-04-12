@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import api from './api/pubgApi'
-import KillTree from './KillTree'
+import KillTree from './KillTree'\
+import Paths from './Paths'
+import { DotLoader } from 'react-spinners';
 
 
 export default class Match extends Component {
@@ -8,13 +10,19 @@ export default class Match extends Component {
     super(props);
     this.state = {
       match: null,
-      telemetry: null
+      telemetry: null,
+      loading: true
     }
   }
 
 
 
   updateMatch = (matchId) => {
+    this.setState(() => {
+      return {
+        loading: true
+      }
+    })
     api.getMatch(matchId)
       .then((res) => {
         this.setState(() => {
@@ -24,7 +32,11 @@ export default class Match extends Component {
         })
         return res.match
       }
-    ).then((match) => this.updateTelemetry(match.telemetry_link))
+    ).then((match) => this.updateTelemetry(match.telemetry_link)).then(() => this.setState(() => {
+      return {
+        loading: false
+      }
+    }))
   }
 
   updateTelemetry = (link) => {
@@ -66,7 +78,11 @@ export default class Match extends Component {
     return(
       <div>
         <h3>Match Info:</h3>
-        {match != null &&
+        <DotLoader
+          color={'#FECC4E'}
+          loading={this.state.loading}
+        />
+      {match !== null && this.state.loading !== true &&
           <ul>
             <li>Date/Time: {match.created}</li>
             <li>Map: {match.map}</li>
@@ -81,13 +97,22 @@ export default class Match extends Component {
               </li>
           </ul>
         }
-        <KillTree
-          telemetry={this.state.telemetry}
-          nodes={(this.state.match) ? this.state.match.names : null}
-          playerName={this.props.playerName}
-          winners={(this.state.match) ? this.state.match.winners.names : null}
-          teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
-        />
+        {match !== null && this.state.loading !== true &&
+          <KillTree
+            telemetry={this.state.telemetry}
+            nodes={(this.state.match) ? this.state.match.names : null}
+            playerName={this.props.playerName}
+            winners={(this.state.match) ? this.state.match.winners.names : null}
+            teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
+          />
+          <2DPaths
+            telemetry={this.state.telemetry}
+            nodes={(this.state.match) ? this.state.match.names : null}
+            playerName={this.props.playerName}
+            winners={(this.state.match) ? this.state.match.winners.names : null}
+            teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
+          />
+        }
       </div>
     )
   }

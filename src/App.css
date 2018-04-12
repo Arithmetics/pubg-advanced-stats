@@ -1,3 +1,15 @@
+body {
+  background-color: black;
+  color: #FECC4E;
+}
+
 .App {
   text-align: center;
+}
+
+.graph {
+  border-style: solid;
+  border-width: 2px;
+  border-color: #FECC4E;
+  width: 800px;
 }

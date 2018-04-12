@@ -3,7 +3,7 @@ import Graph from 'react-graph-vis'
 
 
 
-export default class KillTree extends Component {
+export default class Paths extends Component {
   constructor(props){
     super(props);
     this.state = {

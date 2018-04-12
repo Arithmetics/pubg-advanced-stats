@@ -3,7 +3,7 @@ import './App.css';
 import api from './api/pubgApi';
 import PlayerSelector from './PlayerSelector'
 import Match from './Match'
-import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
+import { BrowserRouter as Router, NavLink } from 'react-router-dom'
 import { PropsRoute } from 'react-router-with-props'
 
 
