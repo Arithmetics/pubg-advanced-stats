@@ -24,7 +24,6 @@ class App extends Component {
             matchIds: res.matchIds
           }
         })
-        console.log(this.state)
       }
 
     )
@@ -50,8 +49,8 @@ class App extends Component {
           })}
           <div>
             <Match
-              playerName={this.props.playerName}
-              match={{params: {id: 'c7feef2b-a9cf-4ece-86ed-25dab9923375'}}} />
+              playerName={this.state.playerName}
+              match={{params: {id: 'a92acb32-7912-41cd-ac66-ca4618eaeb30'}}} />
           </div>
       </div>
     );
