@@ -4,6 +4,7 @@ import api from './api/pubgApi';
 import PlayerSelector from './PlayerSelector'
 import Match from './Match'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
+import { PropsRoute } from 'react-router-with-props'
 
 
 class App extends Component {
@@ -53,9 +54,10 @@ class App extends Component {
                 )
               })}
 
-            <Route
+            <PropsRoute
               path='/match/:id'
-              render={()=> <Match playerName={this.state.playerName} />}
+              component={Match}
+              playerName={this.state.playerName}
             />
 
 
