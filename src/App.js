@@ -3,6 +3,8 @@ import './App.css';
 import api from './api/pubgApi';
 import PlayerSelector from './PlayerSelector'
 import Match from './Match'
+import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
+
 
 class App extends Component {
   constructor(props){
@@ -36,22 +38,29 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Welcome to PUBG Advanced Stats</h1>
-        <h3>Enter Your PUBG Username and Select a Match</h3>
-        <PlayerSelector action={this.updatePlayer}/>
-        <p>{this.state.playerName}</p>
-          {this.state.matchIds.map((id) => {
-            return (
-              <button key={id}>
-                {id}
-              </button>
-            )
-          })}
+        <Router>
           <div>
-            <Match
-              playerName={this.state.playerName}
-              match={{params: {id: 'a92acb32-7912-41cd-ac66-ca4618eaeb30'}}} />
+
+            <PlayerSelector action={this.updatePlayer}/>
+            <p>{this.state.playerName}</p>
+              {this.state.matchIds.map((id) => {
+                return (
+                  <NavLink to={`/match/${id}`} key={id}>
+                  <button key={id}>
+                    {id}
+                  </button>
+                  </NavLink>
+                )
+              })}
+
+            <Route
+              path='/match/:id'
+              render={()=> <Match playerName={this.state.playerName} />}
+            />
+
+
           </div>
+        </Router>
       </div>
     );
   }

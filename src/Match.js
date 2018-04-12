@@ -41,6 +41,12 @@ export default class Match extends Component {
 
   componentDidMount = () => {
     this.updateMatch(this.props.match.params.id)
+    console.log('mounted match')
+  }
+
+  componentWillReceiveProps = () => {
+    this.updateMatch(this.props.match.params.id)
+    console.log('recieved props')
   }
 
 

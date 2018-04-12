@@ -32,9 +32,11 @@ export default class KillTree extends Component {
       playerNodes.forEach((player) => {
         const newNode = { id: player, label: player }
         if(player === playerName){
-          newNode.color = '#00d8ff'
+          newNode.color = '#ffe900'
         } else if (winners.includes(player)) {
           newNode.color = '#ff0008'
+        } else if (player === "BlueZone") {
+          newNode.color = '#00d8ff'
         } else if (teamRoster && teamRoster.includes(player)) {
           newNode.color = '#4cff00'
         }  else {
@@ -52,7 +54,6 @@ export default class KillTree extends Component {
       const killEvents = telemetry.filter(
         (tel) => tel._T === "LogPlayerKill"
       )
-      console.log(killEvents)
 
       killEvents.forEach((kill) => {
         if(kill.damageTypeCategory === "Damage_BlueZone" && kill.killer.name === ""){
@@ -66,7 +67,6 @@ export default class KillTree extends Component {
           graph.edges.push(newEdge)
         }
 
-        console.log(kill.killer.name, kill.victim.name)
       })
     }
 
@@ -85,6 +85,7 @@ export default class KillTree extends Component {
     const events = {
         select: function(event) {
             const { nodes, edges } = event;
+
         }
     }
 
