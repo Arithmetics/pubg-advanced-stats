@@ -53,19 +53,16 @@ export default class Match extends Component {
 
   componentDidMount = () => {
     this.updateMatch(this.props.match.params.id)
-    console.log('mounted match')
   }
 
   componentWillReceiveProps = () => {
     this.updateMatch(this.props.match.params.id)
-    console.log('recieved props')
   }
 
 
   render(){
     const match = this.state.match;
     let teamRoster;
-    console.log(match)
     if(this.state.match && this.state.match.rosters && this.props.playerName){
       const rosters = this.state.match.rosters
       teamRoster = (
