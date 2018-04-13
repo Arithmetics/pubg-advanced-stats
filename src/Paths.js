@@ -55,7 +55,7 @@ export default class Paths extends Component {
           playerPositions[event.character.name].push(
             {
               name: event.character.name,
-              x: ((event.character.location.x * (1/1000) * 0.89 ) - 2),
+              x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
               y: ((event.character.location.y * (-1/1000) * 0.96   ) + 470) ,
               z: event.character.location.z,
               time: event.elapsedTime
@@ -81,7 +81,6 @@ export default class Paths extends Component {
         <h3>Player Paths</h3>
           <div className="shift-graph">
           <ScatterChart width={800} height={760} >
-          <Tooltip cursor={{strokeDasharray: '3 3'}}/>
           <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
           <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
           {playerPositions && (
