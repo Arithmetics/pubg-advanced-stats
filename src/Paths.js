@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Graph from 'react-graph-vis'
+import {ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 
 
 
@@ -14,85 +14,88 @@ export default class Paths extends Component {
 
   render(){
 
-    const graph = {
-      nodes: [
-        ],
-      edges: [
-        ]
-    };
-
-    if(this.props.nodes){
-      const playerNodes = this.props.nodes.concat(["BlueZone"])
-      const playerName = this.props.playerName
-      const winners = this.props.winners
-      const teamRoster = this.props.teamRoster
-
-      playerNodes.forEach((player) => {
-        const newNode = { id: player, label: player, shape: 'box' }
-        if(player === playerName){
-          newNode.color = '#ffe900'
-        } else if (winners.includes(player)) {
-          newNode.color = '#ff0008'
-        } else if (player === "BlueZone") {
-          newNode.color = '#00d8ff'
-        } else if (teamRoster && teamRoster.includes(player)) {
-          newNode.color = '#4cff00'
-        }  else {
-          newNode.color = '#c4c4c4'
-        }
-        graph.nodes.push(newNode)
-      })
-    }
+    const colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF','#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
+  		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+  		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
+  		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+  		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
+  		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+  		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
+  		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+  		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
+  		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
 
     const telemetry = this.props.telemetry
 
+    const playerPositions = {}
+
     if(telemetry){
 
-      const killEvents = telemetry.filter(
-        (tel) => tel._T === "LogPlayerKill"
+      const posLogEvents = telemetry.filter(
+        (tel) => tel._T === "LogPlayerPosition"
       )
 
-      killEvents.forEach((kill) => {
-        if(kill.damageTypeCategory === "Damage_BlueZone" && kill.killer.name === ""){
-          const newEdge = {from: "BlueZone", to: kill.victim.name, width: 5, label: kill.damageCauserName}
-          graph.edges.push(newEdge)
-        } else if(kill.killer.name === "") {
-          const newEdge = {from: kill.victim.name, to: kill.victim.name, width: 5, label: kill.damageCauserName}
-          graph.edges.push(newEdge)
-        } else {
-          const newEdge = {from: kill.killer.name, to: kill.victim.name, width: 5, label: kill.damageCauserName}
-          graph.edges.push(newEdge)
+
+
+      posLogEvents.forEach((event) => {
+        if (!playerPositions[event.character.name]) {
+          playerPositions[event.character.name] = []
+        }
+        if(event.elapsedTime > 10){
+          playerPositions[event.character.name].push(
+            {
+              name: event.character.name,
+              x: ((event.character.location.x * (1/1000) * 0.89 ) - 2),
+              y: ((event.character.location.y * (-1/1000) * 0.96   ) + 470) ,
+              z: event.character.location.z,
+              time: event.elapsedTime
+            }
+          )
         }
       })
+      console.log(playerPositions)
     }
 
-
-    const options = {
-        layout: {
-            hierarchical: {
-              sortMethod: 'directed'
-            }
-        },
-        edges: {
-            color: "#000000"
-        }
-    };
-
-    const events = {
-        select: function(event) {
-            const { nodes, edges } = event;
-
-        }
+    const SmallDot = (props)=>{
+      const radius = 1;
+      const diameter = radius * 2;
+      return (
+          <svg width={diameter} height={diameter} style={{"overflow": "visible"}}>
+              <circle cx={props.cx} cy={props.cy} r={radius} stroke="green" strokeWidth="0" fill={props.color} />
+          </svg>
+      );
     }
-
-
 
     return(
-      <div className="graph">
-        <h3>Kill Tree</h3>
-        {telemetry &&
-        <Graph graph={graph} options={options} events={events} style={{ height: "400px", width: "800px"}}/> }
+      <div className="pos-graph">
+        <h3>Player Paths</h3>
+          <div className="shift-graph">
+          <ScatterChart width={800} height={760} >
+          <Tooltip cursor={{strokeDasharray: '3 3'}}/>
+          <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
+          <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
+          {playerPositions && (
+
+            Object.keys(playerPositions).map((item, i) => (
+              <Scatter key={i} name='player1' line={{stroke: colorArray[i], strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={colorArray[i]} />} fill={colorArray[i]}/>
+            ))
+            // <Scatter key={4} name='player1' line={{stroke: colorArray[3], strokeWidth: 1}} data={playerPositions['Arithmetics']} shape={<SmallDot color={colorArray[3]} />} fill={colorArray[3]}/>
+
+          )
+          }
+
+        </ScatterChart>
+      </div>
       </div>
     )
   }

@@ -13,3 +13,14 @@ body {
   border-color: #FECC4E;
   width: 800px;
 }
+
+.pos-graph {
+  background-image: url(./xxx2.jpg);
+  background-repeat: no-repeat;
+  background-size: 820px 820px;
+  background-position: center;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #FECC4E;
+  width: 800px;
+}

@@ -99,20 +99,22 @@ export default class Match extends Component {
         }
         {match !== null && this.state.loading !== true &&
           <div>
-          <KillTree
-            telemetry={this.state.telemetry}
-            nodes={(this.state.match) ? this.state.match.names : null}
-            playerName={this.props.playerName}
-            winners={(this.state.match) ? this.state.match.winners.names : null}
-            teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
-          />
-          <Paths
-            telemetry={this.state.telemetry}
-            nodes={(this.state.match) ? this.state.match.names : null}
-            playerName={this.props.playerName}
-            winners={(this.state.match) ? this.state.match.winners.names : null}
-            teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
-          />
+            <Paths
+              telemetry={this.state.telemetry}
+              nodes={(this.state.match) ? this.state.match.names : null}
+              playerName={this.props.playerName}
+              winners={(this.state.match) ? this.state.match.winners.names : null}
+              teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
+            />
+
+            <KillTree
+              telemetry={this.state.telemetry}
+              nodes={(this.state.match) ? this.state.match.names : null}
+              playerName={this.props.playerName}
+              winners={(this.state.match) ? this.state.match.winners.names : null}
+              teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
+            />
+
         </div>
         }
       </div>
