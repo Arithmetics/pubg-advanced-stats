@@ -39,6 +39,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <link rel="stylesheet" href="https://unpkg.com/react-rangeslider/umd/rangeslider.min.css" />
         <Router>
           <div>
 

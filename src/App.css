@@ -23,4 +23,16 @@ body {
   border-width: 2px;
   border-color: #FECC4E;
   width: 800px;
+  position: relative;
+}
+
+.slider {
+  width: 800px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.rangeslider__handle {
+  z-index: 99;
 }

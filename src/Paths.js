@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
-import {ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
+import {ScatterChart, Tooltip, Scatter, XAxis, YAxis, CartesianGrid, Legend} from 'recharts';
+import Slider from 'react-rangeslider'
 
 
 export default class Paths extends Component {
   constructor(props){
     super(props);
     this.state = {
-      low: 10,
-      high: 2000
+      lowValue: 0,
+      highValue: 2000
     }
   }
+
+
+  handleChangeStart = () => {
+
+  };
+
+  handleLowChange = value => {
+    this.setState({
+      lowValue: value
+    })
+  };
+
+  handleHighChange = value => {
+    this.setState({
+      highValue: value
+    })
+  };
+
+  handleChangeComplete = () => {
+
+  };
 
 
 
@@ -50,7 +71,7 @@ export default class Paths extends Component {
         if (!playerPositions[event.character.name]) {
           playerPositions[event.character.name] = []
         }
-        if(event.elapsedTime > 10 && event.elapsedTime > this.state.low && event.elapsedTime < this.state.high){
+        if(event.elapsedTime > 10 && event.elapsedTime > this.state.lowValue && event.elapsedTime < this.state.highValue){
           playerPositions[event.character.name].push(
             {
               name: event.character.name,
@@ -62,7 +83,7 @@ export default class Paths extends Component {
           )
         }
       })
-      console.log(playerPositions)
+
     }
 
     const SmallDot = (props)=>{
@@ -76,26 +97,46 @@ export default class Paths extends Component {
     }
 
     return(
+      <div>
+
       <div className="pos-graph">
         <h3>Player Paths</h3>
           <div className="shift-graph">
-          <ScatterChart width={800} height={760} >
-
-          <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
-          <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
-          {playerPositions && (
-
-            Object.keys(playerPositions).map((item, i) => (
-              <Scatter key={i} name='player1' line={{stroke: colorArray[i], strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={colorArray[i]} />} fill={colorArray[i]}/>
-            ))
-            // <Scatter key={4} name='player1' line={{stroke: colorArray[3], strokeWidth: 1}} data={playerPositions['Arithmetics']} shape={<SmallDot color={colorArray[3]} />} fill={colorArray[3]}/>
-
-          )
-          }
-
-        </ScatterChart>
+            <ScatterChart width={800} height={760} >
+              <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
+              <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
+              {playerPositions && (
+                Object.keys(playerPositions).map((item, i) => (
+                  <Scatter key={i} name='player1' line={{stroke: colorArray[i], strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={colorArray[i]} />} fill={colorArray[i]}/>
+                ))
+              )}
+            </ScatterChart>
+            <div className='slider'>
+              <div className='slider-group'>
+              <Slider
+                min={0}
+                max={2000}
+                value={this.state.lowValue}
+                onChangeStart={this.handleChangeStart}
+                onChange={this.handleLowChange}
+                onChangeComplete={this.handleChangeComplete}
+              />
+            </div>
+            <div className='slider'>
+              <Slider
+                min={0}
+                max={2000}
+                value={this.state.highValue}
+                onChangeStart={this.handleChangeStart}
+                onChange={this.handleHighChange}
+                onChangeComplete={this.handleChangeComplete}
+              />
+            </div>
+          </div>
+          </div>
       </div>
-      </div>
+
+    </div>
     )
   }
 
