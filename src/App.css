@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Teko');
+
 body {
   background-color: black;
-  color: #FECC4E;
+  color: #f8a427;
+  font-family: 'Teko', sans-serif;
 }
 
 .App {
@@ -35,4 +38,11 @@ body {
 
 .rangeslider__handle {
   z-index: 99;
+}
+
+.scroll-list {
+  max-height: 200px;
+  max-width: 500px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

@@ -33,7 +33,9 @@ export default class Paths extends Component {
 
   };
 
-
+  handleCheckboxListChange = (values) => {
+  // values is array of selected item. e.g. ['apple', 'banana']
+}
 
   render(){
 
@@ -76,7 +78,7 @@ export default class Paths extends Component {
             {
               name: event.character.name,
               x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
-              y: ((event.character.location.y * (-1/1000) * 0.96   ) + 470) ,
+              y: ((event.character.location.y * (-1/1000) * 0.89   ) + 412) ,
               z: event.character.location.z,
               time: event.elapsedTime
             }
@@ -86,7 +88,7 @@ export default class Paths extends Component {
 
     }
 
-    const SmallDot = (props)=>{
+    const SmallDot = (props) =>{
       const radius = 1;
       const diameter = radius * 2;
       return (
@@ -96,13 +98,17 @@ export default class Paths extends Component {
       );
     }
 
+    const checkboxNames = Object.keys(playerPositions).map((item, i) => (
+      {value: playerPositions[item], label: playerPositions[item], checked: true }
+    ))
+
     return(
       <div>
 
       <div className="pos-graph">
-        <h3>Player Paths</h3>
-          <div className="shift-graph">
-            <ScatterChart width={800} height={760} >
+
+          <div>
+            <ScatterChart width={800} height={800} >
               <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
               <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
               {playerPositions && (
@@ -134,6 +140,7 @@ export default class Paths extends Component {
             </div>
           </div>
           </div>
+
       </div>
 
     </div>

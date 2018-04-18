@@ -45,15 +45,21 @@ class App extends Component {
 
             <PlayerSelector action={this.updatePlayer}/>
             <p>{this.state.playerName}</p>
-              {this.state.matchIds.map((id) => {
-                return (
-                  <NavLink to={`/match/${id}`} key={id}>
-                  <button key={id}>
-                    {id}
-                  </button>
-                  </NavLink>
-                )
-              })}
+            <div className="scroll-list">
+              <ol>
+                {this.state.matchIds.map((id) => {
+                  return (
+                    <li key={id}>
+                      <NavLink to={`/match/${id}`} key={id}>
+                        <button key={id}>
+                          {id}
+                        </button>
+                      </NavLink>
+                    </li>
+                  )
+                })}
+              </ol>
+            </div>
 
             <PropsRoute
               path='/match/:id'
