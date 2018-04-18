@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {ScatterChart, Tooltip, Scatter, XAxis, YAxis, CartesianGrid, Legend} from 'recharts';
 import Slider from 'react-rangeslider'
-
+import DragAndZoom from 'react-drag-and-zoom';
 
 export default class Paths extends Component {
   constructor(props){
@@ -104,46 +104,46 @@ export default class Paths extends Component {
 
     return(
       <div>
-
-      <div className="pos-graph">
-
-          <div>
-            <ScatterChart width={800} height={800} >
-              <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
-              <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
-              {playerPositions && (
-                Object.keys(playerPositions).map((item, i) => (
-                  <Scatter key={i} name='player1' line={{stroke: colorArray[i], strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={colorArray[i]} />} fill={colorArray[i]}/>
-                ))
-              )}
-            </ScatterChart>
-            <div className='slider'>
-              <div className='slider-group'>
-              <Slider
-                min={0}
-                max={2000}
-                value={this.state.lowValue}
-                onChangeStart={this.handleChangeStart}
-                onChange={this.handleLowChange}
-                onChangeComplete={this.handleChangeComplete}
-              />
-            </div>
-            <div className='slider'>
-              <Slider
-                min={0}
-                max={2000}
-                value={this.state.highValue}
-                onChangeStart={this.handleChangeStart}
-                onChange={this.handleHighChange}
-                onChangeComplete={this.handleChangeComplete}
-              />
-            </div>
-          </div>
-          </div>
-
-      </div>
-
+      <div className="no-overflow">
+        <DragAndZoom zoomStep={2}>
+          <span>
+              <div className="pos-graph">
+                  <div>
+                    <ScatterChart width={800} height={800} >
+                      <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
+                      <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
+                      {playerPositions && (
+                        Object.keys(playerPositions).map((item, i) => (
+                          <Scatter key={i} name='player1' line={{stroke: colorArray[i], strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={colorArray[i]} />} fill={colorArray[i]}/>
+                        ))
+                      )}
+                    </ScatterChart>
+                  </div>
+              </div>
+            </span>
+        </DragAndZoom>
     </div>
+    <div className='slider'>
+      <p className='label'>Min Time</p>
+      <Slider
+        min={0}
+        max={2000}
+        value={this.state.lowValue}
+        onChangeStart={this.handleChangeStart}
+        onChange={this.handleLowChange}
+        onChangeComplete={this.handleChangeComplete}
+      />
+    <p className='label'>Max Time</p>
+      <Slider
+        min={0}
+        max={2000}
+        value={this.state.highValue}
+        onChangeStart={this.handleChangeStart}
+        onChange={this.handleHighChange}
+        onChangeComplete={this.handleChangeComplete}
+      />
+    </div>
+  </div>
     )
   }
 
