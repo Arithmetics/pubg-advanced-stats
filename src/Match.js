@@ -62,6 +62,7 @@ export default class Match extends Component {
 
   render(){
     const match = this.state.match;
+    console.log(match);
     let teamRoster;
     if(this.state.match && this.state.match.rosters && this.props.playerName){
       const rosters = this.state.match.rosters
@@ -99,6 +100,7 @@ export default class Match extends Component {
             <Paths
               telemetry={this.state.telemetry}
               nodes={(this.state.match) ? this.state.match.names : null}
+              mapName={(this.state.match) ? this.state.match.map : null}
               playerName={this.props.playerName}
               winners={(this.state.match) ? this.state.match.winners.names : null}
               teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
