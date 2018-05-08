@@ -75,13 +75,13 @@ export default class Match extends Component {
 
     return(
       <div>
-        <h3>Match Info:</h3>
+        <h3 className="subheader">Match Info:</h3>
         <DotLoader
           color={'#FECC4E'}
           loading={this.state.loading}
         />
       {match !== null && this.state.loading !== true &&
-          <ul>
+          <ul className="match-data">
             <li>Date/Time: {match.created}</li>
             <li>Map: {match.map}</li>
             <li>Mode: {match.mode.charAt(0).toUpperCase() + match.mode.substr(1)}</li>
@@ -104,6 +104,7 @@ export default class Match extends Component {
               playerName={this.props.playerName}
               winners={(this.state.match) ? this.state.match.winners.names : null}
               teamRoster={this.state.match && this.state.match.rosters && this.props.playerName ? teamRoster : null}
+              winners={(this.state.match) ? this.state.match.winners.names : null}
             />
 
             <KillTree

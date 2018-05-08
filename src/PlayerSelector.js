@@ -25,12 +25,12 @@ export default class PlayerSelector extends Component {
 
     return(
       <div>
-        <h1>Welcome to PUBG Advanced Stats</h1>
-        <h3>Enter Your PUBG Username and Select a Match</h3>
+        <h1 className="header">Welcome to PUBG Advanced Stats</h1>
+        <h3 className="subheader">Enter Your PUBG Username and Select a Match</h3>
         <form onSubmit={this.handleSubmit}>
-          <label>
+          <label className="labelz">
             Username:
-            <input type='text' value={this.state.value} onChange={this.handleChange}/>
+            <input className="player-input" type='text' value={this.state.value} onChange={this.handleChange}/>
           </label>
           <input type="submit" value="Get Recent Matches" />
         </form>

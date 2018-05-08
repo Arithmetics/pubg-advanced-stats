@@ -11,9 +11,10 @@ export default class Paths extends Component {
     this.state = {
       lowValue: 0,
       highValue: 2000,
-      winnerView: false,
-      playerView: true,
+      playerView: false,
+      winnersView: true,
       killsOnly: false,
+
 
     }
   }
@@ -26,7 +27,16 @@ export default class Paths extends Component {
       } else {
         return "#ff0000"
       }
-    } else {
+
+    } else if (this.state.winnersView) {
+      if(this.props.winners.includes(item)){
+        return "#fecc4e"
+      } else {
+        return "#ff0000"
+      }
+    }
+
+    else {
       return colorArray[i]
     }
   }
@@ -55,10 +65,26 @@ export default class Paths extends Component {
   // values is array of selected item. e.g. ['apple', 'banana']
   }
 
+  handleTeamViewToggle = () => {
+    this.setState({
+      playerView: false,
+      winnersView: false
+    })
+  };
+
   handlePlayerViewToggle = () => {
     const current = this.state.playerView;
     this.setState({
-      playerView: !current
+      playerView: !current,
+      winnersView: false
+    })
+  };
+
+  handleWinnersViewToggle = () => {
+    const current = this.state.winnersView;
+    this.setState({
+      winnersView: !current,
+      playerView: false
     })
   };
 
@@ -149,15 +175,12 @@ export default class Paths extends Component {
       if(this.props.mapName === "Miramar"){
         graphStyle.backgroundImage = `url(${Miramar})`
         console.log(this.props.mapName)
-        console.log('LOADEDEDED')
       } else if (this.props.mapName === "Erangel") {
         graphStyle.backgroundImage = `url(${Erangel})`
         console.log(this.props.mapName)
-        console.log('LOADEDEDED')
       } else {
         graphStyle.backgroundImage = `url(${Miramar})`
         console.log(this.props.mapName)
-        console.log('JUST HERE')
       }
 
 
@@ -225,7 +248,9 @@ export default class Paths extends Component {
         onChangeComplete={this.handleChangeComplete}
       />
     </div>
-    <button onClick={this.handlePlayerViewToggle}>PlayerView</button>
+    <button className="pubg-button" onClick={this.handleTeamViewToggle}>TeamView</button>
+    <button className="pubg-button" onClick={this.handlePlayerViewToggle}>PlayerView</button>
+    <button className="pubg-button" onClick={this.handleWinnersViewToggle}>WinnerView</button>
   </div>
     )
   }

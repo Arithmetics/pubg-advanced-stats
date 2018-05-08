@@ -12,10 +12,37 @@ input {
   font-family: 'Teko', sans-serif;
   padding: 5px;
   margin: 5px;
+  font-size: 20px;
+}
+
+
+.pubg-button {
+  background-color: black;
+  color: #f8a427;
+  font-family: 'Teko', sans-serif;
+  font-size: 20px;
+  padding: 5px;
+  margin: 5px;
 }
 
 .App {
   text-align: center;
+}
+
+.header {
+  font-size: 40px;
+}
+
+.subheader {
+  font-size: 30px;
+}
+
+.player-input {
+  font-size: 20px;
+}
+
+.labelz {
+  font-size: 20px;
 }
 
 .graph {
@@ -61,4 +88,8 @@ input {
   max-width: 800px;
   overflow-y: hidden;
   overflow-x: hidden;
+}
+
+.match-data li {
+  font-size: 20px;
 }
