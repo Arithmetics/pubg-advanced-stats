@@ -10,10 +10,26 @@ export default class Paths extends Component {
     super(props);
     this.state = {
       lowValue: 0,
-      highValue: 2000
+      highValue: 2000,
+      winnerView: false,
+      playerView: true,
+      killsOnly: false,
+
     }
   }
 
+  pickColor = (i, item, colorArray) => {
+    if (this.state.playerView){
+
+      if(this.props.playerName === item){
+        return "#21ff00"
+      } else {
+        return "#ff0000"
+      }
+    } else {
+      return colorArray[i]
+    }
+  }
 
   handleChangeStart = () => {
 
@@ -37,36 +53,47 @@ export default class Paths extends Component {
 
   handleCheckboxListChange = (values) => {
   // values is array of selected item. e.g. ['apple', 'banana']
-}
+  }
+
+  handlePlayerViewToggle = () => {
+    const current = this.state.playerView;
+    this.setState({
+      playerView: !current
+    })
+  };
+
+
 
   render(){
 
     const colorArray =
-      [
-      '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF','#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-  		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-  		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-  		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-  		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-  		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-  		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-  		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-  		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-  		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'
+        ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black",
+        "BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse",
+        "Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan",
+        "DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta",
+        "DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen",
+        "DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink",
+        "DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen",
+        "Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow",
+        "HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush",
+        "LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow",
+        "LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen",
+        "LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow",
+        "Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue",
+        "MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen",
+        "MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin",
+        "NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid",
+        "PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff",
+        "Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue",
+        "SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver",
+        "SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue",
+        "Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"
       ];
 
     const graphStyle = {}
 
     const telemetry = this.props.telemetry
+
     const playerPositions = {}
 
     if(telemetry){
@@ -96,7 +123,7 @@ export default class Paths extends Component {
               {
                 name: event.character.name,
                 x: ((event.character.location.x * (1/1000) * 0.892 ) - 7),
-                y: ((event.character.location.y * (-1/1000) * 0.89   ) + 415) ,
+                y: ((event.character.location.y * (-1/1000) * 0.89 ) + 415) ,
                 z: event.character.location.z,
                 time: event.elapsedTime
               }
@@ -106,7 +133,7 @@ export default class Paths extends Component {
               {
                 name: event.character.name,
                 x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
-                y: ((event.character.location.y * (-1/1000) * 0.89   ) + 412) ,
+                y: ((event.character.location.y * (-1/1000) * 0.89 ) + 412) ,
                 z: event.character.location.z,
                 time: event.elapsedTime
               }
@@ -160,7 +187,7 @@ export default class Paths extends Component {
     return(
       <div>
       <div className="no-overflow">
-        <DragAndZoom zoomStep={2}>
+        <DragAndZoom zoomStep={5}>
           <span>
               <div className="pos-graph" style={graphStyle}>
                   <div>
@@ -169,7 +196,7 @@ export default class Paths extends Component {
                       <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
                       {playerPositions && (
                         Object.keys(playerPositions).map((item, i) => (
-                          <Scatter key={i} name='player1' line={{stroke: colorArray[i], strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={colorArray[i]} />} fill={colorArray[i]}/>
+                          <Scatter key={i} name='player1' line={{stroke: this.pickColor(i, item,colorArray), strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={this.pickColor(i, item, colorArray)} />} fill={this.pickColor(i, item, colorArray)}/>
                         ))
                       )}
                     </ScatterChart>
@@ -198,6 +225,7 @@ export default class Paths extends Component {
         onChangeComplete={this.handleChangeComplete}
       />
     </div>
+    <button onClick={this.handlePlayerViewToggle}>PlayerView</button>
   </div>
     )
   }
