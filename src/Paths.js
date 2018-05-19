@@ -13,13 +13,14 @@ export default class Paths extends Component {
       highValue: 2000,
       playerView: false,
       winnersView: true,
+      teamView: false,
       killsOnly: false,
 
 
     }
   }
 
-  pickColor = (i, item, colorArray) => {
+  pickColor = (i, item, colorArray, teamId) => {
     if (this.state.playerView){
 
       if(this.props.playerName === item){
@@ -30,10 +31,12 @@ export default class Paths extends Component {
 
     } else if (this.state.winnersView) {
       if(this.props.winners.includes(item)){
-        return "#fecc4e"
+        return "#00f2ff"
       } else {
         return "#ff0000"
       }
+    }  else if (this.state.teamView) {
+      return colorArray[teamId]
     }
 
     else {
@@ -61,6 +64,8 @@ export default class Paths extends Component {
 
   };
 
+
+
   handleCheckboxListChange = (values) => {
   // values is array of selected item. e.g. ['apple', 'banana']
   }
@@ -68,7 +73,8 @@ export default class Paths extends Component {
   handleTeamViewToggle = () => {
     this.setState({
       playerView: false,
-      winnersView: false
+      winnersView: false,
+      teamView: true
     })
   };
 
@@ -76,22 +82,30 @@ export default class Paths extends Component {
     const current = this.state.playerView;
     this.setState({
       playerView: !current,
-      winnersView: false
+      winnersView: false,
+      teamView: false
     })
   };
 
   handleWinnersViewToggle = () => {
     const current = this.state.winnersView;
     this.setState({
-      winnersView: !current,
-      playerView: false
+      winnersView: true,
+      playerView: false,
+      teamView: false
     })
   };
 
-
+  getTeamId = (arr) => {
+    if(arr.length === 0) {
+      return 140;
+    } else {
+      return arr[0].teamId
+    }
+  }
 
   render(){
-
+    console.log("TELEMETRY", this.props.telemetry);
     const colorArray =
         ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black",
         "BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse",
@@ -138,6 +152,7 @@ export default class Paths extends Component {
             playerPositions[event.character.name].push(
               {
                 name: event.character.name,
+                teamId: event.character.teamId,
                 x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
                 y: ((event.character.location.y * (-1/1000) * 0.89 ) + 412) ,
                 z: event.character.location.z,
@@ -148,6 +163,7 @@ export default class Paths extends Component {
             playerPositions[event.character.name].push(
               {
                 name: event.character.name,
+                teamId: event.character.teamId,
                 x: ((event.character.location.x * (1/1000) * 0.892 ) - 7),
                 y: ((event.character.location.y * (-1/1000) * 0.89 ) + 415) ,
                 z: event.character.location.z,
@@ -158,6 +174,7 @@ export default class Paths extends Component {
             playerPositions[event.character.name].push(
               {
                 name: event.character.name,
+                teamId: event.character.teamId,
                 x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
                 y: ((event.character.location.y * (-1/1000) * 0.89 ) + 412) ,
                 z: event.character.location.z,
@@ -171,6 +188,7 @@ export default class Paths extends Component {
 
         }
       })
+
 
       if(this.props.mapName === "Miramar"){
         graphStyle.backgroundImage = `url(${Miramar})`
@@ -198,15 +216,6 @@ export default class Paths extends Component {
 
 
 
-
-
-
-
-
-    // const checkboxNames = Object.keys(playerPositions).map((item, i) => (
-    //   {value: playerPositions[item], label: playerPositions[item], checked: true }
-    // ))
-
     return(
       <div>
       <div className="no-overflow">
@@ -219,7 +228,22 @@ export default class Paths extends Component {
                       <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
                       {playerPositions && (
                         Object.keys(playerPositions).map((item, i) => (
-                          <Scatter key={i} name='player1' line={{stroke: this.pickColor(i, item,colorArray), strokeWidth: 1}} data={playerPositions[item]} shape={<SmallDot color={this.pickColor(i, item, colorArray)} />} fill={this.pickColor(i, item, colorArray)}/>
+                          <Scatter
+                            key={i}
+                            name='player1'
+                            line={{stroke: this.pickColor(i, item,colorArray, this.getTeamId(playerPositions[item])), strokeWidth: 1}}
+                            data={playerPositions[item]}
+                            shape={
+                              <SmallDot
+                                color={
+                                  this.pickColor(i, item,colorArray, this.getTeamId(playerPositions[item]))
+                                }
+                              />
+                            }
+                            fill={
+                              this.pickColor(i, item,colorArray, this.getTeamId(playerPositions[item]))
+                            }
+                          />
                         ))
                       )}
                     </ScatterChart>
@@ -248,9 +272,19 @@ export default class Paths extends Component {
         onChangeComplete={this.handleChangeComplete}
       />
     </div>
-    <button className="pubg-button" onClick={this.handleTeamViewToggle}>TeamView</button>
-    <button className="pubg-button" onClick={this.handlePlayerViewToggle}>PlayerView</button>
-    <button className="pubg-button" onClick={this.handleWinnersViewToggle}>WinnerView</button>
+    <button
+      className="pubg-button"
+      onClick={this.handleTeamViewToggle}
+      style={this.state.teamView ? {color: "black", backgroundColor:"#f8a427"} : {color: "#f8a427", backgroundColor:"black"}}
+    >TeamView</button>
+    <button
+      className="pubg-button"
+      onClick={this.handlePlayerViewToggle}
+      style={this.state.playerView ? {color: "black", backgroundColor:"#f8a427"} : {color: "#f8a427", backgroundColor:"black"}} >PlayerView</button>
+    <button
+      className="pubg-button"
+      onClick={this.handleWinnersViewToggle}
+      style={this.state.winnersView ? {color: "black", backgroundColor:"#f8a427"} : {color: "#f8a427", backgroundColor:"black"}} >WinnerView</button>
   </div>
     )
   }

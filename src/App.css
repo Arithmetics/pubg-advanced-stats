@@ -41,8 +41,9 @@ input {
   font-size: 20px;
 }
 
-.labelz {
+.label {
   font-size: 20px;
+  margin: 0;
 }
 
 .graph {
@@ -62,8 +63,12 @@ input {
 }
 
 .slider {
-  width: 800px;
+  width: 400px;
   height: 150px;
+}
+
+.rangeslider {
+  margin: !important 10px 0;
 }
 
 .rangeslider__handle {
