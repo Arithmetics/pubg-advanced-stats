@@ -42,7 +42,7 @@ input {
 }
 
 .label {
-  font-size: 20px;
+  font-size: 15px;
   margin: 0;
 }
 
@@ -64,11 +64,20 @@ input {
 
 .slider {
   width: 400px;
-  height: 150px;
+  height: 100px;
+  float:left;
+  display: inline-block;
+}
+
+.button-zone {
+  display: inline-block;
+  margin: 0;
+  height: 100px;
+  padding-right: 40px;
 }
 
 .rangeslider {
-  margin: !important 10px 0;
+  margin: 5px 0  !important ;
 }
 
 .rangeslider__handle {
