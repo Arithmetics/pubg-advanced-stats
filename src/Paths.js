@@ -14,8 +14,8 @@ export default class Paths extends Component {
       lowValue: 0,
       highValue: 2000,
       playerView: false,
-      winnersView: true,
-      teamView: false,
+      winnersView: false,
+      teamView: true,
       killsOnly: false
     }
   }
@@ -178,21 +178,24 @@ export default class Paths extends Component {
                   }
                 </ScatterChart>
               </div>
-              <div className='slider'>
-                <p className='label'>Min Time</p>
-                <Slider min={0} max={2000} value={this.state.lowValue} onChangeStart={this.handleChangeStart} onChange={this.handleLowChange} onChangeComplete={this.handleChangeComplete}/>
 
-                <p className='label'>Max Time</p>
-                <Slider min={0} max={2000} value={this.state.highValue} onChangeStart={this.handleChangeStart} onChange={this.handleHighChange} onChangeComplete={this.handleChangeComplete}/>
-              </div>
-              <div className="button-zone">
-                <PubgButton toggle={this.handleTeamViewToggle} toggleState={this.state.teamView} text={"TeamView"}  />
-                <PubgButton toggle={this.handlePlayerViewToggle} toggleState={this.state.playerView} text={"PlayerView"}  />
-                <PubgButton toggle={this.handleWinnersViewToggle} toggleState={this.state.winnersView} text={"WinnerView"}  />
-              </div>
             </div>
           </span>
         </DragAndZoom>
+        <div className="controls">
+          <div className='slider'>
+            <p className='label'>Min Time</p>
+            <Slider min={0} max={2000} value={this.state.lowValue} onChangeStart={this.handleChangeStart} onChange={this.handleLowChange} onChangeComplete={this.handleChangeComplete}/>
+
+            <p className='label'>Max Time</p>
+            <Slider min={0} max={2000} value={this.state.highValue} onChangeStart={this.handleChangeStart} onChange={this.handleHighChange} onChangeComplete={this.handleChangeComplete}/>
+          </div>
+          <div className="button-zone">
+            <PubgButton toggle={this.handleTeamViewToggle} toggleState={this.state.teamView} text={"Team Paths"}  />
+            <PubgButton toggle={this.handlePlayerViewToggle} toggleState={this.state.playerView} text={"Player Paths"}  />
+            <PubgButton toggle={this.handleWinnersViewToggle} toggleState={this.state.winnersView} text={"Winners' Path "}  />
+          </div>
+        </div>
       </div>
 
 

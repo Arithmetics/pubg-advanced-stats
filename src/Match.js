@@ -20,7 +20,8 @@ export default class Match extends Component {
   updateMatch = (matchId) => {
     this.setState(() => {
       return {
-        loading: true
+        loading: true,
+        telemetry: null
       }
     })
     api.getMatch(matchId)
@@ -81,6 +82,7 @@ export default class Match extends Component {
           loading={this.state.loading}
         />
       {match !== null && this.state.loading !== true &&
+        <div>
           <ul className="match-data">
             <li>Date/Time: {match.created}</li>
             <li>Map: {match.map}</li>
@@ -94,8 +96,6 @@ export default class Match extends Component {
               }
               </li>
           </ul>
-        }
-        {match !== null && this.state.loading !== true &&
           <div>
             <Paths
               telemetry={this.state.telemetry}
@@ -116,7 +116,9 @@ export default class Match extends Component {
             />
 
         </div>
+        </div>
         }
+
       </div>
     )
   }

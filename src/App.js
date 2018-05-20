@@ -21,6 +21,7 @@ class App extends Component {
   updatePlayer = (playerName) => {
     api.getPlayer(playerName)
       .then((res) => {
+        console.log(res)
         this.setState(() => {
           return {
             playerName: res.playerName,
@@ -45,12 +46,13 @@ class App extends Component {
 
             <PlayerSelector action={this.updatePlayer}/>
             <p>{this.state.playerName}</p>
+            {this.state.matchIds.length > 0 ?
             <div className="scroll-list">
-              <ol>
+              <ol className="match-links">
                 {this.state.matchIds.map((id) => {
                   return (
                     <li key={id}>
-                      <NavLink to={`/match/${id}`} key={id}>
+                      <NavLink  to={`/match/${id}`} key={id}>
                         <button key={id}>
                           {id}
                         </button>
@@ -59,15 +61,12 @@ class App extends Component {
                   )
                 })}
               </ol>
-            </div>
-
+            </div> : null }
             <PropsRoute
               path='/match/:id'
               component={Match}
               playerName={this.state.playerName}
             />
-
-
           </div>
         </Router>
       </div>
