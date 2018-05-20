@@ -59,21 +59,23 @@ input {
   background-size: 820px 820px;
   background-position: center;
   width: 800px;
+  position: relative;
 
 }
 
 .slider {
-  width: 400px;
+  width: 300px;
   height: 100px;
   float:left;
-  display: inline-block;
+  position: absolute;
+  bottom: 10px;
+  left: 30px;
 }
 
 .button-zone {
-  display: inline-block;
-  margin: 0;
-  height: 100px;
-  padding-right: 40px;
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
 }
 
 .rangeslider {

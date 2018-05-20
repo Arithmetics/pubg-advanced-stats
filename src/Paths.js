@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {ScatterChart, Scatter, XAxis, YAxis} from 'recharts';
 import Slider from 'react-rangeslider'
 import DragAndZoom from 'react-drag-and-zoom';
 import Erangel from './erangel.jpg'
 import Miramar from './miramar.png'
+import PubgButton from './PubgButton'
+import colorArray from './utils.js'
 
 export default class Paths extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       lowValue: 0,
@@ -14,68 +16,50 @@ export default class Paths extends Component {
       playerView: false,
       winnersView: true,
       teamView: false,
-      killsOnly: false,
-
-
+      killsOnly: false
     }
   }
 
   pickColor = (i, item, colorArray, teamId) => {
-    if (this.state.playerView){
+    if (this.state.playerView) {
 
-      if(this.props.playerName === item){
+      if (this.props.playerName === item) {
         return "#21ff00"
       } else {
         return "#ff0000"
       }
 
     } else if (this.state.winnersView) {
-      if(this.props.winners.includes(item)){
+      if (this.props.winners.includes(item)) {
         return "#00f2ff"
       } else {
         return "#ff0000"
       }
-    }  else if (this.state.teamView) {
+    } else if (this.state.teamView) {
       return colorArray[teamId]
-    }
-
-    else {
+    } else {
       return colorArray[i]
     }
   }
 
-  handleChangeStart = () => {
-
-  };
+  handleChangeStart = () => {};
 
   handleLowChange = value => {
-    this.setState({
-      lowValue: value
-    })
+    this.setState({lowValue: value})
   };
 
   handleHighChange = value => {
-    this.setState({
-      highValue: value
-    })
+    this.setState({highValue: value})
   };
 
-  handleChangeComplete = () => {
-
-  };
-
-
+  handleChangeComplete = () => {};
 
   handleCheckboxListChange = (values) => {
-  // values is array of selected item. e.g. ['apple', 'banana']
+    // values is array of selected item. e.g. ['apple', 'banana']
   }
 
   handleTeamViewToggle = () => {
-    this.setState({
-      playerView: false,
-      winnersView: false,
-      teamView: true
-    })
+    this.setState({playerView: false, winnersView: false, teamView: true})
   };
 
   handlePlayerViewToggle = () => {
@@ -89,143 +73,19 @@ export default class Paths extends Component {
 
   handleWinnersViewToggle = () => {
     const current = this.state.winnersView;
-    this.setState({
-      winnersView: true,
-      playerView: false,
-      teamView: false
-    })
+    this.setState({winnersView: true, playerView: false, teamView: false})
   };
 
   getTeamId = (arr) => {
-    if(arr.length === 0) {
+    if (arr.length === 0) {
       return 140;
     } else {
       return arr[0].teamId
     }
   }
 
-  render(){
+  render() {
     console.log("TELEMETRY", this.props.telemetry);
-
-    const colorArray = [
-  "#FD3A4A",
-  "#FFF700",
-  "#299617",
-  "#A7F432",
-  "#2243B6",
-  "#5DADEC",
-  "#5946B2",
-  "#9C51B6",
-  "#FA5B3D",
-  "#A83731",
-  "#AF6E4D",
-  "#FF5470",
-  "#FFDB00",
-  "#FB4D46",
-  "#FF7A00",
-  "#FDFF00",
-  "#FFAA1D",
-  "#87FF2A",
-  "#0048BA",
-  "#FF3855",
-  "#FF00CC",
-  "Aqua",
-  "Aquamarine",
-  "Blue",
-  "BlueViolet",
-  "Brown",
-  "CadetBlue",
-  "Chartreuse",
-  "Chocolate",
-  "Coral",
-  "CornflowerBlue",
-  "Crimson",
-  "Cyan",
-  "DarkBlue",
-  "DarkCyan",
-  "DarkGreen",
-  "DarkKhaki",
-  "DarkMagenta",
-  "DarkOliveGreen",
-  "DarkOrchid",
-  "DarkRed",
-  "#CC00FF",
-  "DarkTurquoise",
-  "DarkViolet",
-  "DeepPink",
-  "DimGray",
-  "DimGrey",
-  "DodgerBlue",
-  "FireBrick",
-  "ForestGreen",
-  "Fuchsia",
-  "Gold",
-  "Gray",
-  "Green",
-  "GreenYellow",
-  "HotPink",
-  "IndianRed",
-  "Indigo",
-  "Khaki",
-  "Lavender",
-  "LawnGreen",
-  "LightBlue",
-  "LightCoral",
-  "LightCyan",
-  "LightGray",
-  "LightGrey",
-  "LightGreen",
-  "LightPink",
-  "LightSalmon",
-  "LightSeaGreen",
-  "LightSkyBlue",
-  "Lime",
-  "LimeGreen",
-  "Magenta",
-  "Maroon",
-  "MediumBlue",
-  "MediumOrchid",
-  "MediumPurple",
-  "MediumSeaGreen",
-  "MediumSlateBlue",
-  "MediumSpringGreen",
-  "MediumTurquoise",
-  "MediumVioletRed",
-  "MidnightBlue",
-  "Olive",
-  "OliveDrab",
-  "Orange",
-  "OrangeRed",
-  "Orchid",
-  "PaleGoldenRod",
-  "PaleGreen",
-  "PaleTurquoise",
-  "PaleVioletRed",
-  "Peru",
-  "Pink",
-  "Plum",
-  "Purple",
-  "Red",
-  "RoyalBlue",
-  "SaddleBrown",
-  "Salmon",
-  "SandyBrown",
-  "SeaGreen",
-  "Sienna",
-  "Silver",
-  "SkyBlue",
-  "SlateBlue",
-  "SpringGreen",
-  "SteelBlue",
-  "Tan",
-  "Teal",
-  "Thistle",
-  "Tomato",
-  "Turquoise",
-  "Violet",
-  "Yellow",
-  "YellowGreen"
-];
 
     const graphStyle = {}
 
@@ -233,61 +93,49 @@ export default class Paths extends Component {
 
     const playerPositions = {}
 
-    if(telemetry){
+    if (telemetry) {
 
-      const posLogEvents = telemetry.filter(
-        (tel) => tel._T === "LogPlayerPosition"
-      )
+      const posLogEvents = telemetry.filter((tel) => tel._T === "LogPlayerPosition")
 
       posLogEvents.forEach((event) => {
-        if (!playerPositions[event.character.name] ) {
+        if (!playerPositions[event.character.name]) {
           playerPositions[event.character.name] = []
         }
-        if(event.elapsedTime > 10 && event.elapsedTime > this.state.lowValue && event.elapsedTime < this.state.highValue ){
+        if (event.elapsedTime > 10 && event.elapsedTime > this.state.lowValue && event.elapsedTime < this.state.highValue) {
 
-          if(this.props.mapName === 'Erangel'){
-            playerPositions[event.character.name].push(
-              {
-                name: event.character.name,
-                teamId: event.character.teamId,
-                x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
-                y: ((event.character.location.y * (-1/1000) * 0.89 ) + 412) ,
-                z: event.character.location.z,
-                time: event.elapsedTime
-              }
-            )
-          } else if (this.props.mapName === 'Miramar'){
-            playerPositions[event.character.name].push(
-              {
-                name: event.character.name,
-                teamId: event.character.teamId,
-                x: ((event.character.location.x * (1/1000) * 0.892 ) - 7),
-                y: ((event.character.location.y * (-1/1000) * 0.89 ) + 415) ,
-                z: event.character.location.z,
-                time: event.elapsedTime
-              }
-            )
+          if (this.props.mapName === 'Erangel') {
+            playerPositions[event.character.name].push({
+              name: event.character.name,
+              teamId: event.character.teamId,
+              x: ((event.character.location.x * (1 / 1000) * 0.892) - 2),
+              y: ((event.character.location.y * (-1 / 1000) * 0.89) + 412),
+              z: event.character.location.z,
+              time: event.elapsedTime
+            })
+          } else if (this.props.mapName === 'Miramar') {
+            playerPositions[event.character.name].push({
+              name: event.character.name,
+              teamId: event.character.teamId,
+              x: ((event.character.location.x * (1 / 1000) * 0.892) - 7),
+              y: ((event.character.location.y * (-1 / 1000) * 0.89) + 415),
+              z: event.character.location.z,
+              time: event.elapsedTime
+            })
           } else {
-            playerPositions[event.character.name].push(
-              {
-                name: event.character.name,
-                teamId: event.character.teamId,
-                x: ((event.character.location.x * (1/1000) * 0.892 ) - 2),
-                y: ((event.character.location.y * (-1/1000) * 0.89 ) + 412) ,
-                z: event.character.location.z,
-                time: event.elapsedTime
-              }
-            )
+            playerPositions[event.character.name].push({
+              name: event.character.name,
+              teamId: event.character.teamId,
+              x: ((event.character.location.x * (1 / 1000) * 0.892) - 2),
+              y: ((event.character.location.y * (-1 / 1000) * 0.89) + 412),
+              z: event.character.location.z,
+              time: event.elapsedTime
+            })
           }
-
-
-
 
         }
       })
 
-
-      if(this.props.mapName === "Miramar"){
+      if (this.props.mapName === "Miramar") {
         graphStyle.backgroundImage = `url(${Miramar})`
         console.log(this.props.mapName)
       } else if (this.props.mapName === "Erangel") {
@@ -298,95 +146,57 @@ export default class Paths extends Component {
         console.log(this.props.mapName)
       }
 
-
     }
 
-    const SmallDot = (props) =>{
+    const SmallDot = (props) => {
       const radius = 1;
       const diameter = radius * 2;
-      return (
-          <svg width={diameter} height={diameter} style={{"overflow": "visible"}}>
-              <circle cx={props.cx} cy={props.cy} r={radius} stroke="green" strokeWidth="0" fill={props.color} />
-          </svg>
-      );
+      return (<svg width={diameter} height={diameter} style={{
+          "overflow" : "visible"
+        }}>
+        <circle cx={props.cx} cy={props.cy} r={radius} stroke="green" strokeWidth="0" fill={props.color}/>
+      </svg>);
     }
 
-
-
-    return(
-      <div>
+    return (<div>
       <div className="no-overflow">
         <DragAndZoom zoomStep={5}>
           <span>
-              <div className="pos-graph" style={graphStyle}>
-                  <div>
-                    <ScatterChart width={800} height={800} >
-                      <XAxis allowDataOverflow={true}  hide={true} domain={[10,710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
-                      <YAxis allowDataOverflow={true} hide={true}  domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/>
-                      {playerPositions && (
-                        Object.keys(playerPositions).map((item, i) => (
-                          <Scatter
-                            key={i}
-                            name='player1'
-                            line={{stroke: this.pickColor(i, item,colorArray, this.getTeamId(playerPositions[item])), strokeWidth: 1}}
-                            data={playerPositions[item]}
-                            shape={
-                              <SmallDot
-                                color={
-                                  this.pickColor(i, item,colorArray, this.getTeamId(playerPositions[item]))
-                                }
-                              />
-                            }
-                            fill={
-                              this.pickColor(i, item,colorArray, this.getTeamId(playerPositions[item]))
-                            }
-                          />
-                        ))
-                      )}
-                    </ScatterChart>
-                  </div>
+            <div className="pos-graph" style={graphStyle}>
+              <div>
+                <ScatterChart width={800} height={800}>
+                  <XAxis allowDataOverflow={true} hide={true} domain={[10, 710]} dataKey={'x'} type="number" name='x-dist' unit='pubg'/>
+                  <YAxis allowDataOverflow={true} hide={true} domain={[-300, 400]} dataKey={'y'} type="number" name='y-dist' unit='pubg'/> {
+                    playerPositions && (Object.keys(playerPositions).map((item, i) => (<Scatter key={i} name='player1' line={{
+                        stroke: this.pickColor(i, item, colorArray, this.getTeamId(playerPositions[item])),
+                        strokeWidth: 1
+                      }} data={playerPositions[item]} shape={<SmallDot
+                      color = {
+                        this.pickColor(i, item, colorArray, this.getTeamId(playerPositions[item]))
+                      }
+                      />} fill={this.pickColor(i, item, colorArray, this.getTeamId(playerPositions[item]))}/>)))
+                  }
+                </ScatterChart>
               </div>
-            </span>
-        </DragAndZoom>
-    </div>
-    <div className='slider'>
-      <p className='label'>Min Time</p>
-      <Slider
-        min={0}
-        max={2000}
-        value={this.state.lowValue}
-        onChangeStart={this.handleChangeStart}
-        onChange={this.handleLowChange}
-        onChangeComplete={this.handleChangeComplete}
-      />
+              <div className='slider'>
+                <p className='label'>Min Time</p>
+                <Slider min={0} max={2000} value={this.state.lowValue} onChangeStart={this.handleChangeStart} onChange={this.handleLowChange} onChangeComplete={this.handleChangeComplete}/>
 
-      <p className='label'>Min Time</p>
-      <Slider
-        min={0}
-        max={2000}
-        value={this.state.highValue}
-        onChangeStart={this.handleChangeStart}
-        onChange={this.handleHighChange}
-        onChangeComplete={this.handleChangeComplete}
-      />
-    </div>
-    <div class="button-zone">
-      <button
-        className="pubg-button"
-        onClick={this.handleTeamViewToggle}
-        style={this.state.teamView ? {color: "black", backgroundColor:"#f8a427"} : {color: "#f8a427", backgroundColor:"black"}}
-      >TeamView</button>
-      <button
-        className="pubg-button"
-        onClick={this.handlePlayerViewToggle}
-        style={this.state.playerView ? {color: "black", backgroundColor:"#f8a427"} : {color: "#f8a427", backgroundColor:"black"}} >PlayerView</button>
-      <button
-        className="pubg-button"
-        onClick={this.handleWinnersViewToggle}
-        style={this.state.winnersView ? {color: "black", backgroundColor:"#f8a427"} : {color: "#f8a427", backgroundColor:"black"}} >WinnerView</button>
-    </div>
-  </div>
-    )
+                <p className='label'>Max Time</p>
+                <Slider min={0} max={2000} value={this.state.highValue} onChangeStart={this.handleChangeStart} onChange={this.handleHighChange} onChangeComplete={this.handleChangeComplete}/>
+              </div>
+              <div className="button-zone">
+                <PubgButton toggle={this.handleTeamViewToggle} toggleState={this.state.teamView} text={"TeamView"}  />
+                <PubgButton toggle={this.handlePlayerViewToggle} toggleState={this.state.playerView} text={"PlayerView"}  />
+                <PubgButton toggle={this.handleWinnersViewToggle} toggleState={this.state.winnersView} text={"WinnerView"}  />
+              </div>
+            </div>
+          </span>
+        </DragAndZoom>
+      </div>
+
+
+    </div>)
   }
 
 }
